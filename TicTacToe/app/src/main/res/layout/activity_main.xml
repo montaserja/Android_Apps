@@ -41,15 +41,21 @@
                 android:id="@+id/play_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="15dp"
                 android:layout_weight="1"
-                android:text="Start Play !" />
+                android:background="#c19a6b"
+                android:text="Start Play !"
+                android:textColor="@android:color/background_light" />
 
             <Button
                 android:id="@+id/inst_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="15dp"
                 android:layout_weight="1"
-                android:text="Instructions" />
+                android:background="#c19a6b"
+                android:text="Instructions"
+                android:textColor="@android:color/background_light" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
