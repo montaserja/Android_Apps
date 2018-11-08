@@ -1,5 +1,9 @@
 package com.example.montaserja.toetactic;
 
+import android.content.Context;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,13 +19,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     String [] Game;
     GameBoard gameBoard;
     boolean win;
-    int count,xWins,oWins,Draws;
+    int xWins,oWins,Draws;
     TextView xTxt,oTxt,dTxt,turnTxt;
+    MediaPlayer ring;
+    int nothing;
 
-
-    final String X="X";
-    final String O="O";
-    boolean xTurn=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +36,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         turnTxt=findViewById(R.id.turnTxt);
         Game=new String[9];
         gameBoard=new GameBoard();
+
+
         win=false;
-        count=0;
+
         xWins=0;
         oWins=0;
         Draws=0;
@@ -60,7 +64,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         {
             if (buttons[i].getId() == v.getId())
             {
-                count++;
+
                 index = i;
                 gameBoard.Played(index);
                 gameBoard.CheckTheGame();
@@ -79,7 +83,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 buttons[i].setText("");
             }
             playAgain.setEnabled(false);
-            count=0;
+
             win=false;
             gameBoard=new GameBoard();
         }
@@ -100,10 +104,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 xTxt.setText(String.valueOf(xWins));
             }
             Toast.makeText(this, "Game Over", Toast.LENGTH_SHORT).show();
+            ring= MediaPlayer.create(this,R.raw.tada);
+            ring.start();
         }
         if(gameBoard.TheGameEnds()==0){
             turnTxt.setText("Draw-No Winners!");
                 Toast.makeText(this, "Game Over", Toast.LENGTH_SHORT).show();
+            ring= MediaPlayer.create(this,R.raw.lose);
+            ring.start();
                 Draws++;
             dTxt.setText(String.valueOf(Draws));
             playAgain.setEnabled(true);
@@ -117,6 +125,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+
+  
 
 
 
