@@ -6,4 +6,56 @@
     android:layout_height="match_parent"
     tools:context=".InstructionsActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#c19a6b"
+            android:gravity="center"
+            android:text="Introduction"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@android:color/white"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="The object of Tic Tac Toe is to get three in a row. You play on a three by three game board. The first player is known as X and the second is O. Players alternate placing Xs and Os on the game board until either oppent has three in a row or all nine squares are filled. X always goes first, and in the event that no one has three in a row, the stalemate is called a cat game."
+                    android:textColor="#c19a6b"
+                    android:textSize="24sp" />
+            </LinearLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/stbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:layout_weight="0.1"
+            android:background="#c19a6b"
+            android:text="start Game"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

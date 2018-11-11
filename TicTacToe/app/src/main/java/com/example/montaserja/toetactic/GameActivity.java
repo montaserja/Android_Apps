@@ -1,6 +1,8 @@
 package com.example.montaserja.toetactic;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
@@ -18,31 +20,36 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     Button playAgain;
     String [] Game;
     GameBoard gameBoard;
-    boolean win;
+    boolean win,noting;
     int xWins,oWins,Draws;
     TextView xTxt,oTxt,dTxt,turnTxt;
     MediaPlayer ring;
-    int nothing;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         buttons = new Button[9];
+
         playAgain=findViewById(R.id.PlayAgain_btn);
         xTxt=findViewById(R.id.xScoreTxt);
         oTxt=findViewById(R.id.oScoreTxt);
         dTxt=findViewById(R.id.dScoreTxt);
         turnTxt=findViewById(R.id.turnTxt);
+        noting=true;
         Game=new String[9];
         gameBoard=new GameBoard();
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
 
-
-        win=false;
 
         xWins=0;
         oWins=0;
         Draws=0;
+
+        win=false;
+
+
 
         for(int i=0; i<buttons.length; i++) {
             {
@@ -78,6 +85,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
 
        if(playAgain.getId()==v.getId()){
+            ring.stop();
             for (int i = 0; i < buttons.length; i++){
                 buttons[i].setEnabled(true);
                 buttons[i].setText("");
@@ -126,7 +134,42 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-  
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        SharedPreferences sp = getSharedPreferences("MyPref" , Context.MODE_PRIVATE);
+        xWins=Integer.parseInt(sp.getString("XWins", "0"));
+        oWins=Integer.parseInt(sp.getString("OWins", "0"));
+        Draws=Integer.parseInt(sp.getString("Draws", "0"));
+        xTxt.setText(String.valueOf(xWins));
+        oTxt.setText(String.valueOf(oWins));
+        dTxt.setText(String.valueOf(Draws));
+
+    }
+
+
+
+
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        // save data into sheardPrefrences
+        SharedPreferences sp = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("OWins",  oTxt.getText().toString());
+        editor.putString("XWins",  xTxt.getText().toString());
+        editor.putString("Draws",  dTxt.getText().toString());
+        // editor.putInt("lastPicIndex", currentPicIndex);
+        editor.commit();
+
+        Log.d("debug", ">>>>>>>>>> onPause()");
+    }
+
+
 
 
 
