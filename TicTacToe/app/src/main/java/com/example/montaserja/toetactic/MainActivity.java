@@ -1,6 +1,7 @@
 package com.example.montaserja.toetactic;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         play =  findViewById(R.id.play_btn);
         instroctions =  findViewById(R.id.inst_btn);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
 
 
 

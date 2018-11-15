@@ -1,10 +1,14 @@
 package com.example.montaserja.toetactic;
 
+import android.os.Debug;
 import android.util.Log;
+
+import static java.sql.DriverManager.println;
 
 public class GameBoard {
     boolean win;
     String Game[];
+    int Wins[];
     boolean xTurn;
     int counter;
 
@@ -14,6 +18,7 @@ public class GameBoard {
         Game=new String[9];
         xTurn=true;
         counter=0;
+        Wins=new int[3];
 
     }
 
@@ -32,10 +37,16 @@ public class GameBoard {
         for (int i = 1; i < Game.length; i++) {
             if (Game[i] != null && Game[i-1] !=null) {
 
-                if(Game[i]==Game[i-1])
+                if(Game[i]==Game[i-1]) {
+                    if(count<3) {
+                        Wins[count - 1] = i - 1;
+                        Wins[count] = i;
+                    }
                     count++;
+                }
                 else
                 {
+                    Wins=new int[3];
                     count=1;
                     i+=(3-(i%3));
                 }
@@ -45,6 +56,7 @@ public class GameBoard {
                 }
 
             }else {
+                Wins=new int[3];
                 count = 1;
                 i+=(3-(i%3));
             }
@@ -64,9 +76,14 @@ public class GameBoard {
                 if (i < 6) {
                     if(Game[i]!=null && Game[i+3]!=null) {
                         if (Game[i] == Game[i + 3]) {
+                            if(count<3) {
+                                Wins[count - 1] = i;
+                                Wins[count] = i+3;
+                            }
                             count++;
                             i += 3;
                         } else {
+                            Wins=new int[3];
                             count = 1;
                             i = col;
                             col++;
@@ -79,6 +96,7 @@ public class GameBoard {
                             break;
                         }
                     }else{
+                        Wins=new int[3];
                         count = 1;
                         i = col;
                         col++;
@@ -95,16 +113,22 @@ public class GameBoard {
 
     private void checkX(){
         if(Game[0]!=null && Game [4]!=null && Game[8]!=null) {
-            if (Game[0] == Game[4] && Game[0] == Game[8])
-                win= true;
+            if (Game[0] == Game[4] && Game[0] == Game[8]) {
+                Wins[0]=0;Wins[1]=4;Wins[2]=8;
+                win = true;
+            }
         }
-        else if(Game[2]!=null && Game [4]!=null && Game[6]!=null) {
-            if (Game[2] == Game[4] && Game[6] == Game[4])
-                win= true;
+        if(Game[2]!=null && Game [4]!=null && Game[6]!=null) {
+            if (Game[2] == Game[4] && Game[4] == Game[6]) {
+                Wins[0]=2;Wins[1]=4;Wins[2]=6;
+                win = true;
+
+            }
         }
+    }
 
-
-
+    public int[] getWins(){
+        return Wins;
     }
 
     public int TheGameEnds(){
