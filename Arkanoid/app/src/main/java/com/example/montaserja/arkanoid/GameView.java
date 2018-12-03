@@ -1,10 +1,12 @@
 package com.example.montaserja.arkanoid;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.os.Debug;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -34,7 +36,9 @@ public class GameView extends View {
     private boolean ballHasntMoved;
     private float afterTextsY;
     private int [] speed;
-
+    private String gameOver;
+    private Context context;
+   private MediaPlayer ring;
     // current state
     private State state;
     public GameView(Context context , AttributeSet attrs) {
@@ -42,6 +46,7 @@ public class GameView extends View {
         lifes=3;
         score=0;
         afterTextsY=100;
+        this.context=context;
 
     }
 
@@ -64,8 +69,14 @@ public class GameView extends View {
         }
         ball.draw(canvas);
         paddle.draw(canvas);
-        if(Bricks.draw(canvas,ball)){
+        int check=Bricks.draw(canvas,ball);
+        if(check==1){
+            ring= MediaPlayer.create(context,R.raw.blop);
+            ring.start();
             score+=5*lifes;
+        }else if(check==2){
+            state=State.GAME_OVER;
+            gameOver="GAME OVER - You Win!";
         }
         switch (state)
         {
@@ -91,7 +102,7 @@ public class GameView extends View {
                 break;
 
             case GAME_OVER:
-                canvas.drawText("GAME OVER - You Loss!", canvasWidth/2, canvasHeight/2, penMsg);
+                canvas.drawText(gameOver, canvasWidth/2, canvasHeight/2, penMsg);
                 break;
         }
         invalidate();
@@ -110,7 +121,7 @@ public class GameView extends View {
 
         speedX=speed[i1];
 
-
+gameOver="GAME OVER - You Loss!";
 
         // paint for info text
         penInfo = new Paint(Paint.ANTI_ALIAS_FLAG);

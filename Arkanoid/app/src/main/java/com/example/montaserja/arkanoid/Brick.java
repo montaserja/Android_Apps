@@ -1,15 +1,23 @@
 package com.example.montaserja.arkanoid;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.media.MediaPlayer;
 import android.util.Log;
+
+
 
 public class Brick {
     private float left,right,up,down;
     private Paint pen;
     private boolean notDestroy;
     private boolean stop;
+    private int count;
+
+
 
     public Brick(float left,float right,float up,float down){
         this.left=left;
@@ -21,6 +29,7 @@ public class Brick {
         pen=new Paint(Paint.ANTI_ALIAS_FLAG);
         pen.setColor(Color.RED);
         pen.setStyle(Paint.Style.FILL);
+        count=0;
     }
 
     public void draw(Canvas canvas){
@@ -38,7 +47,13 @@ if(stop) {
         if (ball.getCx()-ball.getRadius() <= right && ball.getCx()+ball.getRadius() >= left) {
             notDestroy = false;
             stop=false;
-            ball.setDy(-ball.getDy());
+            if(ball.getCx()-(ball.getRadius()/2)>right || ball.getCx()+(ball.getRadius()/2)<left)
+                ball.setDx(-ball.getDx());
+            else
+                ball.setDy(-ball.getDy());
+
+
+
             left = -1;
             right = 0;
             up = -1;
@@ -64,5 +79,9 @@ if(stop) {
 
 
         return false;
+    }
+
+    public int getCount() {
+        return count;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.montaserja.arkanoid;
 
 import android.graphics.Canvas;
+import android.util.Log;
 
 public class BrickCollection {
 
@@ -8,6 +9,7 @@ public class BrickCollection {
     private Brick[][] Bricks;
     private int screenHeight,screenWidth;
     private float brickHeight,brickWidth,space,screenCanDraw;
+    private int count;
     public BrickCollection(int rows,int cols,int h,int w,float screenCanDraw){
         this.rows=rows;
         this.cols=cols;
@@ -18,7 +20,7 @@ public class BrickCollection {
         brickHeight=h/20;
         brickWidth=(w-(cols+1)*space)/cols;
         this.screenCanDraw=screenCanDraw;
-
+        count=0;
         init();
     }
 
@@ -36,18 +38,26 @@ public class BrickCollection {
         }
     }
 
-    public boolean draw(Canvas canvas,Ball ball){
+    public int draw(Canvas canvas,Ball ball){
 
         for (int i=0;i<rows;i++){
             for (int j =0; j<cols;j++){
 
                 Bricks[i][j].draw(canvas);
                if( Bricks[i][j].onBallTouch(ball)){
-                   return true;
+                   count++;
+                   if(count!=(rows*cols)) {
+
+                   return 1;
+                   }
+                   else{
+                       return 2;
+                   }
+
                }
             }
         }
-        return false;
+        return 0;
     }
 
 }
